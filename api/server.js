@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 });
 
 consign()
-  .include('./db.js')
+  .include('utils')
   .then('routes')
   .then('models')
   .into(app);
