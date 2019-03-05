@@ -17,31 +17,11 @@ app.use((req, res, next) => {
 
 consign()
   .include('./db.js')
+  .then('routes')
   .then('models')
   .into(app);
 
-
-app.get('/api', (req, res) => {
-  res.json({ description: 'It\'s a API for a test! JWT Token is not needed in this case.' });
-});
-
-app.get('/api/customers', (req, res) => {
-  app.models.customers.list(app, res);
-});
-
-app.get('/api/customers/discounts/:customerId', (req, res) => {
-  const { customerId } = req.params;
-  app.models.customers.discounts(app, res, customerId);
-});
-
-app.get('/api/products', (req, res) => {
-  app.models.products.list(app, res);
-});
-
-app.get('/api/products/discounts/:productId', (req, res) => {
-  const { productId } = req.params;
-  app.models.products.discounts(app, res, productId);
-});
+app.routes.gets.start(app);
 
 const port = 8080;
 const sPort = 8081;
