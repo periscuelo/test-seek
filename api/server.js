@@ -21,7 +21,9 @@ consign()
   .then('models')
   .into(app);
 
-app.routes.gets.start(app);
+app.routes.index.start(app);
+app.routes.customers.start(app);
+app.routes.products.start(app);
 
 const port = 8080;
 const sPort = 8081;
