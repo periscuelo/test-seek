@@ -1,24 +1,23 @@
 # seek
 
-### API setup
-```
-cd api
-npm install
-npm start
-```
+## Requiriments
+You need has Docker Installed in your operational system.
 
-### OBS. About API
+## OBS. About API
 ```
 Maybe your browser blocked self-signed
 certificates. If this occurs you must add
-an exception for API to work with HTTPS or
+an exception for API to work with HTTPS,
+access the URL of API with HTTPS to work or
 change the SPA to use HTTP.
-
-You will need to upload the dump in mysql
-and configure access to the database.
 ```
 
-## Project setup
+## Project Docker setup
+
+In root folder use `$ docker-compose up -d`.
+Wait 4 or 5 minutes (for npm install process) and access URL localhost:8082
+
+## Project setup commands for docker-compose.yml
 ```
 npm install
 ```

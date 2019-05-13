@@ -9,7 +9,7 @@ const query = (application, res, sql, params, mapField) => {
       } else {
         connection.query(sql, [params], (err2, rows) => {
           if (err2) {
-            appData.error = 1;
+            appData.error = 2;
             appData.body = 'Internal Server Error';
             res.status(500).json(appData);
           } else if (rows.length > 0) {

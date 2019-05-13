@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  webserver:
+    image: periscuelo/node-vue-cli
+    restart: always
+    working_dir: /data/app/
+    command: bash -c "ncu -u && npm i && npm run serve"
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+      CHOKIDAR_INTERVAL: 300
+    ports:
+      - 8082:8080
+    volumes:
+      - ./app:/data/app
+      - /data/app/node_modules
+    depends_on:
+      - api
+  api:
+    image: periscuelo/node-vue-cli
+    restart: always
+    working_dir: /data/api/
+    command: bash -c "ncu -u && npm i && npm start"
+    environment:
+      CHOKIDAR_USEPOLLING: 'true'
+      CHOKIDAR_INTERVAL: 300
+    ports:
+      - 8080:8080
+      - 8081:8081
+    volumes:
+      - ./api:/data/api
+      - /data/api/node_modules
+    depends_on:
+      - db
+  db:
+    image: mysql
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: seek
+    volumes:
+      - ./seek.sql:/docker-entrypoint-initdb.d/seek.sql
+      - ../mysql:/var/lib/mysql
+    ports:
+      - 3306:3306

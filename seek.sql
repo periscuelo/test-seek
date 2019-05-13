@@ -12,6 +12,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `seek`
 --
+CREATE DATABASE IF NOT EXISTS `seek` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `seek`;
 
 -- --------------------------------------------------------
 
@@ -22,7 +24,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `customers` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `customers`
@@ -45,7 +47,7 @@ CREATE TABLE `customers_discounts` (
   `id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `discount_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `customers_discounts`
@@ -70,7 +72,7 @@ CREATE TABLE `products` (
   `sku` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `products`
@@ -94,7 +96,7 @@ CREATE TABLE `products_discounts` (
   `amount` int(11) DEFAULT NULL,
   `decrease` int(11) DEFAULT NULL,
   `new_price` decimal(10,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `products_discounts`
