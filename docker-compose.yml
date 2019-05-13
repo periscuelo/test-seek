@@ -41,6 +41,6 @@ services:
       MYSQL_DATABASE: seek
     volumes:
       - ./seek.sql:/docker-entrypoint-initdb.d/seek.sql
-      - ../mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     ports:
       - 3306:3306

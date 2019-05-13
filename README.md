@@ -3,6 +3,8 @@
 ## Requiriments
 You need has Docker Installed in your operational system.
 
+Create a folder called mysql in root folder of project.
+
 ## OBS. About API
 ```
 Maybe your browser blocked self-signed
@@ -15,6 +17,7 @@ change the SPA to use HTTP.
 ## Project Docker setup
 
 In root folder use `$ docker-compose up -d`.
+
 Wait 4 or 5 minutes (for npm install process) and access URL localhost:8082
 
 ## Project setup commands for docker-compose.yml
