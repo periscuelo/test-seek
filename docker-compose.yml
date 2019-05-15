@@ -6,11 +6,14 @@ services:
     restart: always
     working_dir: /data/app/
     command: bash -c "ncu -u && npm i && npm run serve"
+    stdin_open: true
+    tty: true
     environment:
       CHOKIDAR_USEPOLLING: 'true'
       CHOKIDAR_INTERVAL: 300
     ports:
-      - 8082:8080
+      - 8000:8000
+      - 8080:8080
     volumes:
       - ./app:/data/app
       - /data/app/node_modules
@@ -21,11 +24,13 @@ services:
     restart: always
     working_dir: /data/api/
     command: bash -c "ncu -u && npm i && npm start"
+    stdin_open: true
+    tty: true
     environment:
       CHOKIDAR_USEPOLLING: 'true'
       CHOKIDAR_INTERVAL: 300
     ports:
-      - 8080:8080
+      - 8082:8080
       - 8081:8081
     volumes:
       - ./api:/data/api
@@ -36,6 +41,8 @@ services:
     image: mysql
     restart: always
     command: --default-authentication-plugin=mysql_native_password
+    stdin_open: true
+    tty: true
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: seek

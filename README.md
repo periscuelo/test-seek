@@ -1,24 +1,19 @@
 # seek
 
 ## Requiriments
-You need has Docker Installed in your operational system.
-
+You need has Docker Installed in your operational system.  
 Create a folder called mysql in root folder of project.
 
 ## OBS. About API
-```
-Maybe your browser blocked self-signed
-certificates. If this occurs you must add
-an exception for API to work with HTTPS,
-access the URL of API with HTTPS to work or
-change the SPA to use HTTP.
-```
+Maybe your browser blocked self-signed certificates.  
+If this occurs you must add an exception for API to  
+work with HTTPS, access the URL of API with HTTPS to  
+work or change the SPA to use HTTP.
 
 ## Project Docker setup
 
-In root folder use `$ docker-compose up -d`.
-
-Wait 4 or 5 minutes (for npm install process) and access URL localhost:8082
+In root folder use `$ docker-compose up -d`.  
+Wait 4 or 5 minutes (for npm install process) and access URL localhost:8080
 
 ## Project setup commands for docker-compose.yml
 ```
