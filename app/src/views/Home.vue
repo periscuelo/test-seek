@@ -175,7 +175,7 @@ export default {
     addToCart() {
       this.quantity = parseInt(this.quantity, 10);
       this.newQuantity = this.quantity;
-      const mProducts = JSON.parse(JSON.stringify(this.products)); // removing the reactivity
+      const mProducts = Array.from(this.products); // create a new memory value with products
       const [item] = mProducts.filter(value => (this.product === value.id));
       const itemIndex = this.items.findIndex(value => (this.product === value.id));
 
