@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use((req, res, next) => {
-  const allowedOrigins = ['http://localhost:8082'];
+  const allowedOrigins = ['http://localhost:8080'];
   const origin = req.headers.origin;
   if(allowedOrigins.indexOf(origin) > -1){
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -23,6 +23,7 @@ consign()
   .include('utils')
   .then('routes')
   .then('models')
+  .then('controllers')
   .into(app);
 
 app.routes.index.start(app);

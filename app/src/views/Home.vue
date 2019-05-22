@@ -97,6 +97,7 @@
 import MySelect from '@/components/MySelect.vue';
 import CustomerService from '@/services/customers';
 import ProductService from '@/services/products';
+import CalcsService from '@/services/calcs';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -176,76 +177,22 @@ export default {
       this.quantity = parseInt(this.quantity, 10);
       this.newQuantity = this.quantity;
       const mProducts = Array.from(this.products); // create a new memory value with products
-      const [item] = mProducts.filter(value => (this.product === value.id));
+      let [item] = mProducts.filter(value => (this.product === value.id));
       const itemIndex = this.items.findIndex(value => (this.product === value.id));
 
-      // eslint-disable-next-line
-      const [discFounds] = this.discProducts.filter(discounts => {
-        return this.discCustomers.find(value => (value === discounts.id));
+      // Check the discounts
+      this.getDiscounts(item, itemIndex).then(data => {
+        if (data.item) item = { data };
+        if (data.items) this.items = data.items;
+        if (data.newQuantity) this.newQuantity = data.newQuantity;
+        if (data.discountsPrice) this.discountsPrice = data.discountsPrice;
+        if (data.total) this.total = data.total;
+        if (data.discounts) this.discounts = data.discounts;
+
+        this.product = null;
+        this.quantity = 0;
+        this.newQuantity = 0;
       });
-
-      // Have a discount
-      if (discFounds !== undefined) {
-        // for for deal
-        if (discFounds.amount && discFounds.decrease) {
-          if (itemIndex >= 0) {
-            const myQty = (this.items[itemIndex].qty + this.newQuantity);
-            if (myQty < discFounds.amount) {
-              this.newQuantity = myQty;
-            } else {
-              this.newQuantity = (
-                myQty - (Math.floor(myQty / discFounds.amount) * discFounds.decrease)
-              );
-            }
-            this.items[itemIndex].subtotal = 0;
-          } else if (this.quantity >= discFounds.amount) {
-            this.newQuantity -= (
-              Math.floor(this.quantity / discFounds.amount) * discFounds.decrease
-            );
-          }
-        // new price per amount
-        } else if (discFounds.amount && discFounds.new_price) {
-          if (itemIndex >= 0) {
-            const myQty = (this.items[itemIndex].qty + this.newQuantity);
-            if (myQty >= discFounds.amount) {
-              this.discountsPrice = (item.price - discFounds.new_price);
-              item.price = discFounds.new_price;
-              this.items[itemIndex].price = item.price;
-              this.items[itemIndex].subtotal = (item.price * this.items[itemIndex].qty);
-            }
-          } else if (this.newQuantity >= discFounds.amount) {
-            this.discountsPrice = (item.price - discFounds.new_price);
-            item.price = discFounds.new_price;
-          }
-        // new price
-        } else {
-          item.price = discFounds.new_price;
-        }
-      }
-
-      const itemSubtotal = (item.price * this.newQuantity);
-
-      if (itemIndex >= 0) {
-        this.items[itemIndex].qty += this.quantity;
-        this.items[itemIndex].subtotal += itemSubtotal;
-        this.items[itemIndex].discount = (
-          Math.abs(this.items[itemIndex].subtotal
-                   - (this.items[itemIndex].qty * this.items[itemIndex].price))
-        );
-      } else {
-        item.qty = this.quantity;
-        item.subtotal = itemSubtotal;
-        item.discount = Math.abs(item.subtotal - (item.qty * item.price));
-        this.items.push(item);
-      }
-
-      this.total = this.items.reduce((prev, curr) => (prev + curr.subtotal), 0);
-      this.discounts = (
-        this.items.reduce((prev, curr) => (prev + curr.discount), 0) + this.discountsPrice
-      );
-      this.product = null;
-      this.quantity = 0;
-      this.newQuantity = 0;
     },
     async getCustomers() {
       try {
@@ -259,6 +206,23 @@ export default {
       try {
         const response = await CustomerService.getDiscounts(this.customer);
         this.setCustomerDiscount(response.data.body);
+      } catch (error) {
+        console.log('Não foi possível carregar os dados da API!', error);
+      }
+    },
+    async getDiscounts(item, itemIndex) {
+      try {
+        const response = await CalcsService.getDiscounts({
+          discProducts: this.discProducts,
+          discCustomers: this.discCustomers,
+          item,
+          itemIndex,
+          items: this.items,
+          newQuantity: this.newQuantity,
+          quantity: this.quantity,
+          discountsPrice: this.discountsPrice,
+        });
+        return response.data.body;
       } catch (error) {
         console.log('Não foi possível carregar os dados da API!', error);
       }
