@@ -94,11 +94,12 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import MySelect from '@/components/MySelect.vue';
 import CustomerService from '@/services/customers';
 import ProductService from '@/services/products';
 import CalcsService from '@/services/calcs';
-import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
@@ -225,6 +226,7 @@ export default {
         return response.data.body;
       } catch (error) {
         console.log('Não foi possível carregar os dados da API!', error);
+        return false;
       }
     },
     async getProducts() {
