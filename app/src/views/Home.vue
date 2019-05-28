@@ -167,7 +167,7 @@ export default {
       this.addDisabled = (this.product === null || value < 1);
     },
   },
-  mounted() {
+  created() {
     this.getCustomers();
     this.getProducts();
   },
