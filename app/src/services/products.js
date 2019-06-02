@@ -1,10 +1,6 @@
-import Axios from '@/services/axios';
+import Axios from './axios';
 
 export default {
-  getProducts() {
-    return Axios().get('/products');
-  },
-  getDiscounts(id) {
-    return Axios().get(`/products/discounts/${id}`);
-  },
+  getProducts: () => Axios().get('/products'),
+  getDiscounts: id => Axios().get(`/products/discounts/${id}`),
 };

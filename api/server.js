@@ -23,6 +23,7 @@ consign()
   .include('utils')
   .then('routes')
   .then('models')
+  .then('controllers')
   .into(app);
 
 app.routes.index.start(app);

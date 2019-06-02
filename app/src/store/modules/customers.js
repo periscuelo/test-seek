@@ -1,12 +1,11 @@
 import { CHANGE_CUSTOMER_DATA, CHANGE_DISCOUNT_DATA } from '../mutations-types';
+import CustomerService from '@/services/customers';
 
-const actions = {
-  setCustomerData({ commit }, data) {
-    commit(CHANGE_CUSTOMER_DATA, data);
-  },
-  setCustomerDiscount({ commit }, data) {
-    commit(CHANGE_DISCOUNT_DATA, data);
-  },
+const getters = {
+  optsCustomer: state => state.customers.map(customer => ({
+    value: customer.id,
+    text: customer.name,
+  })),
 };
 
 const mutations = {
@@ -18,12 +17,23 @@ const mutations = {
   },
 };
 
-const getters = {
-  optsCustomer: state => state.customers.map(customer => ({
-    value: customer.id,
-    text: customer.name,
-  })),
-  discCustomers: state => state.discounts,
+const actions = {
+  async getCustomers({ commit }) {
+    try {
+      const response = await CustomerService.getCustomers();
+      commit(CHANGE_CUSTOMER_DATA, response.data.body);
+    } catch (error) {
+      console.log('Não foi possível carregar os dados da API!', error);
+    }
+  },
+  async getCustomersDiscounts({ commit }, customer) {
+    try {
+      const response = await CustomerService.getDiscounts(customer);
+      commit(CHANGE_DISCOUNT_DATA, response.data.body);
+    } catch (error) {
+      console.log('Não foi possível carregar os dados da API!', error);
+    }
+  },
 };
 
 const state = {
@@ -33,8 +43,8 @@ const state = {
 
 export default {
   namespaced: true,
-  state,
-  actions,
-  mutations,
   getters,
+  mutations,
+  actions,
+  state,
 };
